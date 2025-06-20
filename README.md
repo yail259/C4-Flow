@@ -1,4 +1,4 @@
-#C4-Flow
+# C4-Flow
 ***A new LLM friendly, human readable, code architecting/modelling tool***
 
 This is an informal launch of the C4 Flow specification I've been working on for the past week. I am actively seeking feedback on its usefulness and design quality, so please leave any thoughts and feedback at its [Github Issues](https://github.com/yail259/C4-Flow/issues).
