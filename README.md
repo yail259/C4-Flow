@@ -13,7 +13,7 @@ The motivation of this project was to create a new type of programming. As the s
 
 As such, I am proposing a new type of human-readable, machine parsable domain specific language (DSL) which can express key architecture design decisions made by humans, enabling both humans and machines to produce high quality code whilst keeping the overall architecture in mind.
 
-Futhermore, the 
+Furthermore, the specification will be accompanied by a visualisation tool and DSL parser inline with C4's original intention of more powerful, easy to use software system visualisers.
 
 ---
 
@@ -25,6 +25,7 @@ The C4 model proposed by Simon Brown under the [Creative Commons Attribution 4.0
 | Container | An application or data store, for instance a Postgres database                 |
 | Component | A logical runtime entity, such as DocService. It can be a module or library    |
 | Code      | A class, function, enum, or any other programming construct                    |
+
 However, this specification does not explicitly specify how relationships between entities should be described, this leads to generic verbal descriptions such as "A uses B", or "C delivers D to E".
 
 In C4-Flow, we extend upon this framework and attempt to fix this shortcoming by defining edge types at the 4 abstraction levels. This has the advantage of:
