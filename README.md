@@ -1,4 +1,5 @@
 # C4-Flow
+
 ***A new LLM friendly, human readable, code architecting/modelling tool***
 
 This is an informal launch of the C4 Flow specification I've been working on for the past week. I am actively seeking feedback on its usefulness and design quality, so please leave any thoughts and feedback at its [Github Issues](https://github.com/yail259/C4-Flow/issues).
@@ -48,13 +49,23 @@ As such, the above edge descriptions allow us to powerfully capture the relation
 
 More over, to satisfy our original intent of improving security of the system, as well as formalising the description of edges, I am further proposing explicit recommended edge properties at each of the abstraction levels.
 
-## Contract
+## Common Essential Properties
+
+| Property | Example                                                                                                                                                          | Motivation                                                                                                                             |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| kind     | Interaction: "login", "upload file"<br>Protocol: "request", "stream", "pub/sub"<br>Contract: "comand", "query", "event"<br>Dataflow: "call", "read", "transform" | Short verbal descriptions which allow for high level understanding of category and intent of connection                                |
+| source   | User                                                                                                                                                             | The entity which is initiating the data sending or action                                                                              |
+| target   | System                                                                                                                                                           | The entity which is receiving data or fulfilling a request.                                                                            |
+| sync     | true, false                                                                                                                                                      | Distinguishes blocking, conversational flow from non-blocking, asynchronous event systems. Can inform concurrency or thread modelling. |
+
+These are the core properties of interactions between any two entities at any abstraction levels. They provide essential information that MUST be well defined and lead to clearer systems in most contexts.
+
+Below are some abstraction level specific optional properties which can inform better performance engineering, devOps, or security. They can be included or omitted based on use case or needs.
+
+## Interaction
 
 | Property        | Examples                          | Motivation                                                            |
 | --------------- | --------------------------------- | --------------------------------------------------------------------- |
-| kind            | "login", "upload file"            | Human-readable purpose; drives threat-modelling & UX docs             |
-| direction       | ->, <-                            | Clarifies who initiates action                                        |
-| sync            | true, false                       | Distinguishes blocking, conversational flow from notification systems |
 | trustBoundary   | "external", "level 2"             | Indicates whether auth should be triggered                            |
 | confidentiality | "public", "internal", "secret"    | GDPR / ISO 27001 handling rules                                       |
 | channel         | "web", "mobile", "sms"            | Helps devOps team plan                                                |
@@ -62,27 +73,21 @@ More over, to satisfy our original intent of improving security of the system, a
 
 ## Protocol
 
-| Property   | Examples                       | Motivation                                                                              |
-| ---------- | ------------------------------ | --------------------------------------------------------------------------------------- |
-| kind       | "request", "stream", "pub/sub" | Describes the utility of the connection                                                 |
-| tech       | "REST", "websocket", "gRPC"    | Specifies key rules and connection characteristics                                      |
-| direction  | ->, <-                         | Clarifies who initiates action                                                          |
-| sync       | true, false                    | Distinguishes blocking, conversational flow from notification systems                   |
-| auth       | "admin", "anon"                | Indicates what level of authorisation should have access                                |
-| encryption | "tls", "mTLS", "none"          | Indicates how secure the connection is                                                  |
-| endPoint   | "POST /docs", "topic:invoice"  | Specifies what to connect to                                                            |
-| throughput | "1000 req/s"                   | Capacity/load planning                                                                  |
-| timeout    | "3000 ms"                      | Accounts for networking and latency requirements                                        |
-| retries    | 0, 3                           | Specifies error handling                                                                |
-| qosTier    | "bronze", "platinum"           | Lets SREs map SLIs/SLAs quickly (not too familiar with this field, AI recommended this) |
+| Property   | Examples                      | Motivation                                                                              |
+| ---------- | ----------------------------- | --------------------------------------------------------------------------------------- |
+| tech       | "REST", "websocket", "gRPC"   | Specifies key rules and connection characteristics                                      |
+| auth       | "admin", "anon"               | Indicates what level of authorisation should have access                                |
+| encryption | "tls", "mTLS", "none"         | Indicates how secure the connection is                                                  |
+| endPoint   | "POST /docs", "topic:invoice" | Specifies what to connect to                                                            |
+| throughput | "1000 req/s"                  | Capacity/load planning                                                                  |
+| timeout    | "3000 ms"                     | Accounts for networking and latency requirements                                        |
+| retries    | 0, 3                          | Specifies error handling                                                                |
+| qosTier    | "bronze", "platinum"          | Lets SREs map SLIs/SLAs quickly (not too familiar with this field, AI recommended this) |
 
 ## Contract
 
 | Property   | Examples                        | Motivation                                                                         |
 | ---------- | ------------------------------- | ---------------------------------------------------------------------------------- |
-| kind       | "comand", "query", "event"      | Specifies command vs query and support CQRS patterns                               |
-| direction  | ->, <-                          | Clarifies who initiates action                                                     |
-| sync       | true, false                     | Guides thread model or concurrency design                                          |
 | schema     | "payload.json", "binaryPayload" | A description or rule for the actual data shape; Can be JSON-Schema / Avro / Proto |
 | idempotent | true, false                     | Is it safe to re-deliver?                                                          |
 | version    | "v1", "v2.3"                    | Specifies whether the schema or connection properties has evolved.                 |
@@ -91,9 +96,6 @@ More over, to satisfy our original intent of improving security of the system, a
 
 | Property  | Examples                    | Motivation                                                 |
 | --------- | --------------------------- | ---------------------------------------------------------- |
-| kind      | "call", "read", "transform" | Describes the action type                                  |
-| direction | ->, <-                      | Clarifies who initiates action                             |
-| sync      | true, false                 | Guides thread model or concurrency design                  |
 | datatype  | UserClass, string           | The type of data sent to the callee                        |
 | scope     | "local", "module"           | Helps detects dependencies                                 |
 | mutate    | true, false                 | Helps identify side effects and unexpected changes to data |
