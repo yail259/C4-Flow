@@ -43,6 +43,7 @@ As such below are the proposed new edge types under the C4-Flow specification:
 | Container | Protocol    | A protocol describes the technology and specifications which is used to communicate between two containers |
 | Component | Contract    | A contract defines the actual message type, shape and delivery traits between components                   |
 | Code      | Dataflow    | A dataflow describes the fine-grained internal data at different stages of the code                        |
+
 As such, the above edge descriptions allow us to powerfully capture the relationships between different entities of the same abstraction level. 
 
 More over, to satisfy our original intent of improving security of the system, as well as formalising the description of edges, I am further proposing explicit recommended edge properties at each of the abstraction levels.
